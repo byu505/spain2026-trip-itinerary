@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spain Trip — Madrid & Sevilla | May 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+</head>
+<body class="page-home">
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <p class="hero-label">Group Trip · May 2026</p>
+      <h1>Madrid & Sevilla</h1>
+      <p class="hero-dates">Weekend before Memorial Day → Memorial Day Weekend</p>
+      <p class="hero-sub">Plan the trip, see who’s when, and share ideas in one place.</p>
+    </div>
+  </header>
+
+  <nav class="site-nav" aria-label="Trip planning">
+    <a href="index.html" class="nav-current">Home</a>
+    <a href="travel.html">Travel</a>
+    <a href="itinerary.html">Itinerary</a>
+    <a href="hotels.html">Hotels</a>
+    <a href="weather.html">Weather</a>
+    <a href="pack.html">What to pack</a>
+  </nav>
+
+  <main>
+    <section class="section timeline-section">
+      <h2>Trip timeline</h2>
+      <div class="timeline">
+        <div class="timeline-city sevilla">
+          <div class="timeline-badge">Sevilla</div>
+          <div class="timeline-dates">Mon May 18 → Thu May 21</div>
+          <p>First stop. Flights into Sevilla (SVQ) or Madrid (MAD) + train.</p>
+        </div>
+        <div class="timeline-arrow" aria-hidden="true">→</div>
+        <div class="timeline-city madrid">
+          <div class="timeline-badge">Madrid</div>
+          <div class="timeline-dates">Thu May 21 → Mon May 25 (Memorial Day)</div>
+          <p>Second stop. Train or flight from Sevilla. Fly home from Madrid (MAD).</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section availability-section">
+      <h2>Who’s available when</h2>
+      <p class="section-desc">Click a day to toggle. Updates are saved in your browser.</p>
+      <div class="availability-grid-wrap">
+        <table class="availability-grid" id="availability-grid">
+          <thead>
+            <tr>
+              <th>Who</th>
+              <th>Mon 5/18</th>
+              <th>Tue 5/19</th>
+              <th>Wed 5/20</th>
+              <th>Thu 5/21</th>
+              <th>Fri 5/22</th>
+              <th>Sat 5/23</th>
+              <th>Sun 5/24</th>
+              <th>Mon 5/25</th>
+            </tr>
+          </thead>
+          <tbody id="availability-body"></tbody>
+        </table>
+      </div>
+      <p class="availability-legend"><span class="legend-dot available"></span> Available · <span class="legend-dot unavailable"></span> Unavailable</p>
+    </section>
+
+    <section class="section map-section">
+      <h2>Who’s coming from where</h2>
+      <p class="section-desc">Arrows show each person’s route into the trip cities.</p>
+      <div id="trip-map" class="trip-map"></div>
+      <div class="map-legend">
+        <span><strong>Brandon</strong> Florence → Sevilla</span>
+        <span><strong>Jared + Brittany</strong> Marbella → Sevilla</span>
+        <span><strong>DJ + Bridgette</strong> NYC → Sevilla</span>
+        <span><strong>Harrison + Michelle</strong> NYC → Madrid</span>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Spain trip · Sevilla then Madrid · May 2026</p>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="app.js"></script>
+  <script>
+    (function() {
+      var el = document.getElementById("trip-map");
+      if (!el) return;
+      var L = window.L;
+      if (!L) return;
+      var map = L.map("trip-map").setView([39.5, -2], 5);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "© OpenStreetMap" }).addTo(map);
+      var sevilla = [37.3891, -5.9845];
+      var madrid = [40.4168, -3.7038];
+      var florence = [43.7696, 11.2558];
+      var marbella = [36.5097, -4.8864];
+      var nyc = [40.7128, -74.006];
+      var colors = { brandon: "#c45c3e", jared: "#6b7b5c", dj: "#2c3e50", harrison: "#5c5346" };
+      L.polyline([florence, sevilla], { color: colors.brandon, weight: 3, opacity: 0.9 }).addTo(map);
+      L.polyline([marbella, sevilla], { color: colors.jared, weight: 3, opacity: 0.9 }).addTo(map);
+      L.polyline([nyc, sevilla], { color: colors.dj, weight: 3, opacity: 0.9, dashArray: "8,8" }).addTo(map);
+      L.polyline([nyc, madrid], { color: colors.harrison, weight: 3, opacity: 0.9 }).addTo(map);
+      L.marker(sevilla).addTo(map).bindPopup("<b>Sevilla</b><br>Brandon, Jared + Brittany, DJ + Bridgette");
+      L.marker(madrid).addTo(map).bindPopup("<b>Madrid</b><br>Harrison + Michelle + group");
+      L.marker(florence).addTo(map).bindPopup("<b>Florence</b><br>Brandon");
+      L.marker(marbella).addTo(map).bindPopup("<b>Marbella</b><br>Jared + Brittany");
+      L.marker(nyc).addTo(map).bindPopup("<b>New York</b><br>DJ + Bridgette, Harrison + Michelle");
+    })();
+  </script>
+</body>
+</html>
